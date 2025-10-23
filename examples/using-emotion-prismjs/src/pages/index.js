@@ -40,9 +40,8 @@ const link = css`
   color: #ffffff;
 `
 
-class BlogIndex extends React.Component {
-  render() {
-    const posts = get(this, `props.data.allMarkdownRemark.edges`)
+function BlogIndex() {
+  const posts = get(this, `props.data.allMarkdownRemark.edges`)
 
     return (
       <Layout isIndex>
@@ -82,8 +81,7 @@ class BlogIndex extends React.Component {
           })}
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogIndex

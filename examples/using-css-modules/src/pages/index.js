@@ -3,9 +3,8 @@ import { Link } from "gatsby"
 
 import { index, subheader, link } from "../styles/index.module.css"
 
-class IndexComponent extends React.Component {
-  render() {
-    return (
+function IndexComponent() {
+  return (
       <div className={index}>
         <h1>Hello world</h1>
         <h2 className={subheader}>
@@ -31,8 +30,7 @@ class IndexComponent extends React.Component {
           </a>
         </p>
       </div>
-    )
-  }
+    );
 }
 
 export default IndexComponent

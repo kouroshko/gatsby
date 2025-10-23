@@ -3,12 +3,11 @@ import { Link, graphql } from "gatsby"
 import Layout from "../layouts"
 import kebabCase from "lodash/kebabCase"
 
-class TagsPageRoute extends React.Component {
-  render() {
-    const allTags = this.props.data.allMarkdownRemark.group
+function TagsPageRoute({data, location}) {
+  const allTags = data.allMarkdownRemark.group
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <h1>Tags</h1>
         <ul>
           {allTags.map(tag => (
@@ -25,8 +24,7 @@ class TagsPageRoute extends React.Component {
           ))}
         </ul>
       </Layout>
-    )
-  }
+    );
 }
 
 export default TagsPageRoute

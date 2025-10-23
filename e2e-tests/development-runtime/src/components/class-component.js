@@ -1,17 +1,22 @@
 import React, { Component } from "react"
 
-class ClassComponent extends Component {
-  state = {
-    custom: true,
-  }
+import React, { useState } from 'react';
 
-  render() {
-    const custom = this.state[`%CUSTOM_STATE%`]
+function ClassComponent() {
+  const [custom, setCustom] = useState(false); // Replace this with the appropriate initial value
+
+  // If there are any side effects, use useEffect here
+
+  if (custom) {
+    return <h1 data-testid="stateful-class-component">Custom Message</h1>;
+  }
+  return <h1 data-testid="class-component">I am a %CLASS_COMPONENT%</h1>;
+
+  const custom = this.state[`%CUSTOM_STATE%`]
     if (custom) {
       return <h1 data-testid="stateful-class-component">Custom Message</h1>
     }
-    return <h1 data-testid="class-component">I am a %CLASS_COMPONENT%</h1>
-  }
+    return <h1 data-testid="class-component">I am a %CLASS_COMPONENT%</h1>;
 }
 
 export default ClassComponent

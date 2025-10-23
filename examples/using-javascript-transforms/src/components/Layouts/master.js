@@ -2,9 +2,8 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import "../../static/css/base.scss"
 
-class MasterLayout extends React.Component {
-  render() {
-    let siteMetadata = this.props.data.site.siteMetadata
+function MasterLayout({data, children}) {
+  let siteMetadata = data.site.siteMetadata
 
     return (
       <div className="MasterLayout">
@@ -12,10 +11,9 @@ class MasterLayout extends React.Component {
           <meta name="description" content={siteMetadata.siteDescr} />
           <meta name="keywords" content="articles" />
         </Helmet>
-        {this.props.children}
+        {children}
       </div>
-    )
-  }
+    );
 }
 
 export default MasterLayout

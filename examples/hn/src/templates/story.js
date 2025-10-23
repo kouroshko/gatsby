@@ -4,14 +4,13 @@ import { Link, graphql } from "gatsby"
 
 import StoryComment from "../components/story-comment"
 
-class Story extends React.Component {
-  render() {
-    let width = 400
+function Story({data}) {
+  let width = 400
     if (typeof window !== `undefined`) {
       width = window.innerWidth
     }
 
-    const story = this.props.data.hnStory
+    const story = data.hnStory
     // Flatten comments tree.
     const seenComments = {}
     const flattenComments = (comments, depth = 0) => {
@@ -92,8 +91,7 @@ class Story extends React.Component {
           </tbody>
         </table>
       </Layout>
-    )
-  }
+    );
 }
 
 export default Story

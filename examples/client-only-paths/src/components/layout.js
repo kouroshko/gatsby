@@ -4,9 +4,8 @@ import { Link } from "gatsby"
 import typography from "../utils/typography"
 const { rhythm } = typography
 
-class DefaultLayout extends React.Component {
-  render() {
-    return (
+function DefaultLayout({children}) {
+  return (
       <div
         style={{
           margin: `0 auto`,
@@ -22,10 +21,9 @@ class DefaultLayout extends React.Component {
             Example of adding client only paths
           </h3>
         </Link>
-        {this.props.children}
+        {children}
       </div>
-    )
-  }
+    );
 }
 
 export default DefaultLayout

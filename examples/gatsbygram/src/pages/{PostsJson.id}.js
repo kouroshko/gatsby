@@ -4,14 +4,14 @@ import { graphql } from "gatsby"
 import PostDetail from "../components/post-detail"
 import Layout from "../layouts"
 
-class PostTemplate extends React.Component {
+function PostTemplate({location, data}) {
   static propTypes = {
     data: PropTypes.shape({
       postsJson: PropTypes.object.isRequired,
     }),
   }
-  render() {
-    let isModal = false
+
+  let isModal = false
     // We don't want to show the modal if a user navigates
     // directly to a post so if this code is running on Gatsby's
     // initial render then we don't show the modal, otherwise we
@@ -23,11 +23,10 @@ class PostTemplate extends React.Component {
       isModal = true
     }
     return (
-      <Layout location={this.props.location} isModal={isModal}>
-        <PostDetail post={this.props.data.postsJson} />
+      <Layout location={location} isModal={isModal}>
+        <PostDetail post={data.postsJson} />
       </Layout>
-    )
-  }
+    );
 }
 
 export default PostTemplate

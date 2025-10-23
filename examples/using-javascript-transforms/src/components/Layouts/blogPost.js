@@ -3,9 +3,8 @@ import { Link, graphql } from "gatsby"
 
 import MasterLayout from "./master"
 
-class BlogPostLayout extends React.Component {
-  render() {
-    let siteMetadata = this.props.siteMetadata
+function BlogPostLayout({siteMetadata, children}) {
+  let siteMetadata = siteMetadata
 
     const home = (
       <div className="nav">
@@ -22,10 +21,10 @@ class BlogPostLayout extends React.Component {
     return (
       <div>
         <MasterLayout
-          {...{ data: { site: { siteMetadata: this.props.siteMetadata } } }}
+          {...{ data: { site: { siteMetadata: siteMetadata } } }}
         >
           {home}
-          <div className="container">{this.props.children}</div>
+          <div className="container">{children}</div>
           <div className="footer container">
             <hr />
             <p>
@@ -37,8 +36,7 @@ class BlogPostLayout extends React.Component {
           </div>
         </MasterLayout>
       </div>
-    )
-  }
+    );
 }
 
 export default BlogPostLayout

@@ -40,10 +40,9 @@ const Product = ({ node }) => (
   </div>
 )
 
-class IndexPage extends React.Component {
-  render() {
-    const usProductEdges = this.props.data.us.edges
-    const deProductEdges = this.props.data.german.edges
+function IndexPage({data}) {
+  const usProductEdges = data.us.edges
+    const deProductEdges = data.german.edges
     return (
       <Layout>
         <div style={{ marginBottom: rhythm(2) }}>
@@ -76,8 +75,7 @@ class IndexPage extends React.Component {
           ))}
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 IndexPage.propTypes = propTypes

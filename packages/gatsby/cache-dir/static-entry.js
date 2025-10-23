@@ -223,13 +223,12 @@ export default async function staticPage({
     const { componentChunkName, slicesMap } = pageData
     const pageComponent = await asyncRequires.components[componentChunkName]()
 
-    class RouteHandler extends React.Component {
-      render() {
-        const props = {
-          ...this.props,
+    function RouteHandler({location}) {
+  const props = {
+          ...props,
           ...pageData.result,
           params: {
-            ...grabMatchParams(this.props.location.pathname),
+            ...grabMatchParams(location.pathname),
             ...(pageData.result?.pageContext?.__params || {}),
           },
         }
@@ -245,9 +244,8 @@ export default async function staticPage({
           }
         ).pop()
 
-        return wrappedPage
-      }
-    }
+        return wrappedPage;
+}
 
     const routerElement = (
       <ServerLocation url={`${__BASE_PATH__}${pagePath}`}>

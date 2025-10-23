@@ -23,9 +23,8 @@ const Wrapper = styled(`div`, {
   background: `#f5f3f7`,
 })
 
-class IndexPage extends React.Component {
-  render() {
-    return (
+function IndexPage() {
+  return (
       <Container>
         <Wrapper>
           <Title>
@@ -38,8 +37,7 @@ class IndexPage extends React.Component {
           </p>
         </Wrapper>
       </Container>
-    )
-  }
+    );
 }
 
 export default IndexPage

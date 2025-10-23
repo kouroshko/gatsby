@@ -8,9 +8,8 @@ import Container from "../components/container"
 import { rhythm } from "../utils/typography"
 import constants from "../utils/constants"
 
-class IndexPage extends React.Component {
-  render() {
-    const data = this.props.data
+function IndexPage({data}) {
+  const data = data
     const topRecipe = data.topRecipe.edges[0].node
     const nextTwoPromotedRecipes = data.nextTwoPromotedRecipes.edges.map(
       edge => edge.node
@@ -212,8 +211,7 @@ class IndexPage extends React.Component {
           </div>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default IndexPage

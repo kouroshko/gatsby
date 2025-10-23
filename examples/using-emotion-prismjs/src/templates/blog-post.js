@@ -18,9 +18,8 @@ const postDate = css`
   margin-top: ${rhythm(-1)};
 `
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const post = this.props.data.markdownRemark
+function BlogPostTemplate({data}) {
+  const post = data.markdownRemark
 
     return (
       <Layout pageTitle={post.frontmatter.title}>
@@ -31,8 +30,7 @@ class BlogPostTemplate extends React.Component {
           <hr />
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogPostTemplate

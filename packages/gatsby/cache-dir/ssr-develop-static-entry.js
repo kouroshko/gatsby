@@ -230,14 +230,13 @@ export default async function staticPage({
           />
         )
       })
-    class RouteHandler extends React.Component {
-      render() {
-        const props = {
-          ...this.props,
+    function RouteHandler({location}) {
+  const props = {
+          ...props,
           ...pageData.result,
           serverData,
           params: {
-            ...grabMatchParams(this.props.location.pathname),
+            ...grabMatchParams(location.pathname),
             ...(pageData.result?.pageContext?.__params || {}),
           },
         }
@@ -256,9 +255,8 @@ export default async function staticPage({
           }
         ).pop()
 
-        return wrappedPage
-      }
-    }
+        return wrappedPage;
+}
 
     const routerElement =
       syncRequires.ssrComponents[componentChunkName] && !isClientOnlyPage ? (

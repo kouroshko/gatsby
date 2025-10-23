@@ -3,9 +3,8 @@ import { graphql } from "gatsby"
 import Layout from "../components/layout"
 import StoryItem from "../components/story-item"
 
-class Index extends React.Component {
-  render() {
-    const { allHnStory } = this.props.data
+function Index({data}) {
+  const { allHnStory } = data
     return (
       <Layout>
         <table border="0" className="itemlist" cellPadding={0} cellSpacing={0}>
@@ -24,8 +23,7 @@ class Index extends React.Component {
           </tbody>
         </table>
       </Layout>
-    )
-  }
+    );
 }
 
 export default Index

@@ -2,9 +2,8 @@ import React from "react"
 import { graphql } from "gatsby"
 import sGif from "../images/s.gif"
 
-class StoryComment extends React.Component {
-  render() {
-    const comment = this.props.comment
+function StoryComment({comment, width}) {
+  const comment = comment
     return (
       <table border="0">
         <tbody>
@@ -13,7 +12,7 @@ class StoryComment extends React.Component {
               <img
                 src={sGif}
                 height="1"
-                width={comment.depth * Math.min(40, this.props.width / 20) + 14}
+                width={comment.depth * Math.min(40, width / 20) + 14}
               />
             </td>
             <td className="default">
@@ -46,8 +45,7 @@ class StoryComment extends React.Component {
           </tr>
         </tbody>
       </table>
-    )
-  }
+    );
 }
 
 export default StoryComment

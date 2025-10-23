@@ -10,9 +10,8 @@ import "prismjs/themes/prism-solarizedlight.css"
 import "prismjs/plugins/line-numbers/prism-line-numbers.css"
 
 // TODO(v6): Refactor this to a function component
-class Layout extends React.Component {
-  render() {
-    // TODO(v6): Refactor to use `useStaticQuery` instead of `StaticQuery`, `StaticQuery` will be removed in v6
+function Layout({children}) {
+  // TODO(v6): Refactor to use `useStaticQuery` instead of `StaticQuery`, `StaticQuery` will be removed in v6
     return (
       <StaticQuery
         query={graphql`
@@ -51,7 +50,7 @@ class Layout extends React.Component {
                 </Link>
               </div>
               <div {...styles.container} {...styles.verticalPadding}>
-                {this.props.children}
+                {children}
                 <div
                   css={{
                     ...scale(-0.5),
@@ -69,8 +68,7 @@ class Layout extends React.Component {
           )
         }}
       />
-    )
-  }
+    );
 }
 
 export default Layout

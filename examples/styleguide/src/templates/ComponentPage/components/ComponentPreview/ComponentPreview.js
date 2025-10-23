@@ -132,12 +132,11 @@ const theme = {
   ],
 }
 
-class ComponentPreview extends React.Component {
-  render() {
-    return (
+function ComponentPreview({code}) {
+  return (
       <LiveProvider
         scope={components}
-        code={this.props.code}
+        code={code}
         mountStylesheet={false}
         theme={theme}
       >
@@ -145,8 +144,7 @@ class ComponentPreview extends React.Component {
         <LiveError />
         <LivePreview />
       </LiveProvider>
-    )
-  }
+    );
 }
 
 ComponentPreview.propTypes = {

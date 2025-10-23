@@ -14,7 +14,17 @@ if (typeof window !== `undefined`) {
   window.postsToShow = 12
 }
 
-class Index extends React.Component {
+function Index({data, location}) {
+  const [showingMore, setShowingMore] = React.useState(postsToShow > 12);
+  React.useEffect(() => {
+    window.addEventListener(`scroll`, handleScroll)
+    
+    return () => {
+      window.removeEventListener(`scroll`, handleScroll)
+    window.postsToShow = this.state.postsToShow
+    };
+  }, []);
+
   static propTypes = {
     location: PropTypes.object.isRequired,
     data: PropTypes.shape({
@@ -23,54 +33,31 @@ class Index extends React.Component {
     }),
   }
 
-  constructor() {
-    super()
-    let postsToShow = 12
-    if (typeof window !== `undefined`) {
-      postsToShow = window.postsToShow
-    }
-
-    this.state = {
-      showingMore: postsToShow > 12,
-      postsToShow,
-    }
-  }
-
-  update() {
+  function update() {
     const distanceToBottom =
       document.documentElement.offsetHeight -
       (window.scrollY + window.innerHeight)
-    if (this.state.showingMore && distanceToBottom < 100) {
-      this.setState({ postsToShow: this.state.postsToShow + 12 })
+    if (showingMore && distanceToBottom < 100) {
+      this.setState({ postsToShow: postsToShow + 12 })
     }
-    this.ticking = false
+    ticking = false
   }
 
-  handleScroll = () => {
-    if (!this.ticking) {
-      this.ticking = true
-      requestAnimationFrame(() => this.update())
+  const handleScroll = () => {
+    if (!ticking) {
+      ticking = true
+      requestAnimationFrame(() => update())
     }
-  }
+  };
 
-  componentDidMount() {
-    window.addEventListener(`scroll`, this.handleScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener(`scroll`, this.handleScroll)
-    window.postsToShow = this.state.postsToShow
-  }
-
-  render() {
-    let { allPostsJson, user } = this.props.data
+  let { allPostsJson, user } = data
 
     const posts = allPostsJson.edges.map(e => e.node)
 
     user = user.edges[0].node
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <div
           css={{
             display: `flex`,
@@ -146,13 +133,13 @@ class Index extends React.Component {
                 <Post
                   key={node.id}
                   post={node}
-                  location={this.props.location}
+                  location={location}
                   onClick={post => this.setState({ activePost: post })}
                 />
               ))}
             </div>
           ))}
-          {!this.state.showingMore && (
+          {!showingMore && (
             <a
               data-testid="load-more"
               css={{
@@ -182,7 +169,7 @@ class Index extends React.Component {
                 },
               }}
               onClick={() => {
-                this.setState({
+                setShowingMore({
                   postsToShow: this.state.postsToShow + 12,
                   showingMore: true,
                 })
@@ -193,8 +180,7 @@ class Index extends React.Component {
           )}
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default Index

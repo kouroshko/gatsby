@@ -1,9 +1,8 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
 
-class StoryItem extends React.Component {
-  render() {
-    const story = this.props.story
+function StoryItem({story}) {
+  const story = story
     return (
       <table>
         <tbody>
@@ -57,8 +56,7 @@ class StoryItem extends React.Component {
           <tr className="spacer" style={{ height: `5px` }} />
         </tbody>
       </table>
-    )
-  }
+    );
 }
 
 export default StoryItem

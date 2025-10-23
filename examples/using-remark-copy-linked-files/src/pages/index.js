@@ -9,13 +9,12 @@ import typography from "../utils/typography"
 
 const { rhythm } = typography
 
-class BlogIndex extends React.Component {
-  render() {
-    const siteTitle = get(this, `props.data.site.siteMetadata.title`)
+function BlogIndex({location}) {
+  const siteTitle = get(this, `props.data.site.siteMetadata.title`)
     const posts = get(this, `props.data.allMarkdownRemark.edges`)
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <Helmet title={siteTitle} />
         <Bio />
         {posts
@@ -42,8 +41,7 @@ class BlogIndex extends React.Component {
             )
           })}
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogIndex

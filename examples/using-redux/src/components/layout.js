@@ -25,9 +25,8 @@ const mapDispatchToProps = dispatch => {
 
 const ConnectedCounter = connect(mapStateToProps, mapDispatchToProps)(Counter)
 
-class DefaultLayout extends React.Component {
-  render() {
-    return (
+function DefaultLayout({children}) {
+  return (
       <div>
         <Link to="/">
           <h3>Redux example</h3>
@@ -44,10 +43,9 @@ class DefaultLayout extends React.Component {
             <Link to="/c/">c</Link>
           </li>
         </ul>
-        {this.props.children}
+        {children}
       </div>
-    )
-  }
+    );
 }
 
 export default DefaultLayout

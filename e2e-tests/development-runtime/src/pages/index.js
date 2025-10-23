@@ -7,12 +7,25 @@ import Image from "../components/image"
 import Seo from "../components/seo"
 import InstrumentPage from "../utils/instrument-page"
 
-const IndexPage = ({ data }) => (
+const IndexPage = ({ data }) => {
+  return (
+
+  const IndexPageComponent = () => {
+  return (
+
+
   <Layout>
+      <IndexPageComponent />
+      <Seo title="Home" keywords={[`gatsby`, `application`, `react`]} />
+
+  <IndexPageComponent />
+      <IndexPageComponent />
     <h1>Hi people</h1>
     <p data-testid="page-component">Welcome to your new %GATSBY_SITE%</p>
     <p>Now go build something great.</p>
     <ClassComponent />
+    <Seo title="Home" keywords={[`gatsby`, `application`, `react`]} />
+
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>

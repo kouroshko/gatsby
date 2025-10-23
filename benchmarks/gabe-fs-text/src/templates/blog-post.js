@@ -4,15 +4,14 @@ import { Link, graphql } from "gatsby"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const { date, html } = this.props.data.texto
-    const siteTitle = this.props.data.site.siteMetadata.title
+function BlogPostTemplate({data, pageContext, location}) {
+  const { date, html } = data.texto
+    const siteTitle = data.site.siteMetadata.title
 
-    const { previous, next } = this.props.pageContext
+    const { previous, next } = pageContext
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
+      <Layout location={location} title={siteTitle}>
         <article>
           <header>
             <p style={{ display: `block`, marginBottom: "5px" }}>{date}</p>
@@ -51,8 +50,7 @@ class BlogPostTemplate extends React.Component {
           </ul>
         </nav>
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogPostTemplate
