@@ -2,10 +2,8 @@ import React from "react"
 import { Link } from "gatsby"
 import "./style.css"
 
-class SiteNav extends React.Component {
-  render() {
-    const { location } = this.props
-    return (
+function SiteNav({location}) {
+  return (
       <nav className="blog-nav">
         <ul>
           <li>
@@ -37,8 +35,7 @@ class SiteNav extends React.Component {
           </li>
         </ul>
       </nav>
-    )
-  }
+    );
 }
 
 export default SiteNav

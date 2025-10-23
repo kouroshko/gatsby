@@ -1,9 +1,8 @@
 import React from "react"
 import moment from "moment"
 
-class PostPublished extends React.Component {
-  render() {
-    const frontmatter = this
+function PostPublished() {
+  const frontmatter = this
     let published
     if (frontmatter.updated === null) {
       published = (
@@ -29,8 +28,7 @@ class PostPublished extends React.Component {
           <p>{published}</p>
         </div>
       </div>
-    )
-  }
+    );
 }
 
 export default PostPublished

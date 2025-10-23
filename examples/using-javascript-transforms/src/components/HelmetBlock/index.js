@@ -2,10 +2,8 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import moment from "moment"
 
-class HelmetBlock extends React.Component {
-  render() {
-    const frontmatter = this.props
-    return (
+function HelmetBlock({frontmatter}) {
+  return (
       <div>
         <Helmet>
           <title>{frontmatter.title}</title>
@@ -32,8 +30,7 @@ class HelmetBlock extends React.Component {
           <meta name="twitter:data2" content={frontmatter.written} />
         </Helmet>
       </div>
-    )
-  }
+    );
 }
 
 export default HelmetBlock

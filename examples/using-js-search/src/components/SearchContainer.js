@@ -2,24 +2,16 @@ import React, { Component } from "react"
 import Axios from "axios"
 import * as JsSearch from "js-search"
 
-class Search extends Component {
-  state = {
-    bookList: [],
-    search: [],
-    searchResults: [],
-    isLoading: true,
-    isError: false,
-    searchQuery: ``,
-  }
-  /**
-   * React lifecycle method to fetch the data
-   */
-  async componentDidMount() {
+function Search() {
+  React.useEffect(() => {
+    let result;
+    let bookData;
+    let err;
     Axios.get(`https://bvaughn.github.io/js-search/books.json`)
       .then(result => {
         const bookData = result.data
         this.setState({ bookList: bookData.books })
-        this.rebuildIndex()
+        rebuildIndex()
       })
       .catch(err => {
         this.setState({ isError: true })
@@ -27,12 +19,9 @@ class Search extends Component {
         console.log(`Something bad happened while fetching the data\n${err}`)
         console.log(`====================================`)
       })
-  }
+  }, []);
 
-  /**
-   * rebuilds the overall index based on the options
-   */
-  rebuildIndex = () => {
+  const rebuildIndex = () => {
     const { bookList } = this.state
 
     const dataToSearch = new JsSearch.Search(`isbn`)
@@ -61,30 +50,9 @@ class Search extends Component {
 
     dataToSearch.addDocuments(bookList) // adds the data to be searched
     this.setState({ search: dataToSearch, isLoading: false })
-  }
+  };
 
-  /**
-   * handles the input change and perform a search with js-search
-   * in which the results will be added to the state
-   */
-  searchData = e => {
-    const { search } = this.state
-    const queryResult = search.search(e.target.value)
-    this.setState({ searchQuery: e.target.value, searchResults: queryResult })
-  }
-  handleSubmit = e => {
-    e.preventDefault()
-  }
-
-  render() {
-    const {
-      isError,
-      isLoading,
-      bookList,
-      searchResults,
-      searchQuery,
-    } = this.state
-    const queryResults = searchQuery === `` ? bookList : searchResults
+  const queryResults = searchQuery === `` ? bookList : searchResults
 
     if (isLoading) {
       return (
@@ -114,7 +82,7 @@ class Search extends Component {
     return (
       <div>
         <div style={{ margin: `0 auto` }}>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div style={{ margin: `0 auto` }}>
               <label htmlFor="Search" style={{ paddingRight: `10px` }}>
                 Enter your search here
@@ -122,7 +90,7 @@ class Search extends Component {
               <input
                 id="Search"
                 value={searchQuery}
-                onChange={this.searchData}
+                onChange={searchData}
                 placeholder="Enter your search here"
                 style={{ margin: `0 auto`, width: `400px` }}
               />
@@ -217,8 +185,7 @@ class Search extends Component {
           </div>
         </div>
       </div>
-    )
-  }
+    );
 }
 
 export default Search

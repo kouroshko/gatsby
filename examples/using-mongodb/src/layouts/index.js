@@ -2,9 +2,8 @@ import React from "react"
 import { Link } from "gatsby"
 import { Helmet } from "react-helmet"
 
-class DefaultLayout extends React.Component {
-  render() {
-    let siteMetadata = { title: `mongoDB within Gatsby.JS` }
+function DefaultLayout({children}) {
+  let siteMetadata = { title: `mongoDB within Gatsby.JS` }
 
     return (
       <div className="websites">
@@ -20,7 +19,7 @@ class DefaultLayout extends React.Component {
             Example of using mongoDB as a data source for a Gatsby site
           </h3>
         </Link>
-        {this.props.children}
+        {children}
         <hr />
         <p>
           The src for this website is at
@@ -30,8 +29,7 @@ class DefaultLayout extends React.Component {
           </a>
         </p>
       </div>
-    )
-  }
+    );
 }
 
 export default DefaultLayout

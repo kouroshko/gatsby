@@ -33,11 +33,8 @@ const RouteHandler = props => (
   </BaseContext.Provider>
 )
 
-class LocationHandler extends React.Component {
-  render() {
-    const { location } = this.props
-
-    const slicesContext = {
+function LocationHandler({location}) {
+  const slicesContext = {
       renderEnvironment: `browser`,
     }
 
@@ -67,7 +64,7 @@ class LocationHandler extends React.Component {
                             locationAndPageResources.pageResources.page.path
                           ).split(`?`)[0]
                         )}
-                        {...this.props}
+                        {...props}
                         {...locationAndPageResources}
                       />
                     </Router>
@@ -85,7 +82,7 @@ class LocationHandler extends React.Component {
     let custom404
     if (real404PageResources) {
       custom404 = (
-        <PageQueryStore {...this.props} pageResources={real404PageResources} />
+        <PageQueryStore {...props} pageResources={real404PageResources} />
       )
     }
 
@@ -114,8 +111,7 @@ class LocationHandler extends React.Component {
           </SlicesContext.Provider>
         )}
       </EnsureResources>
-    )
-  }
+    );
 }
 
 const Root = () => (

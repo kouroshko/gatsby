@@ -8,22 +8,21 @@ import profilePic from "../images/kyle-round-small-pantheon.jpg"
 
 const { rhythm, scale } = typography
 
-class BlogPostRoute extends React.Component {
-  render() {
-    const post = this.props.data.markdownRemark
+function BlogPostRoute({data, location}) {
+  const post = data.markdownRemark
     //console.log(post)
 
     let pizza = window.width2
     let tags
     let tagsSection
-    if (this.props.data.markdownRemark.fields.tagSlugs) {
-      const tagsArray = this.props.data.markdownRemark.fields.tagSlugs
+    if (data.markdownRemark.fields.tagSlugs) {
+      const tagsArray = data.markdownRemark.fields.tagSlugs
       tags = tagsArray.map((tag, i) => {
         const divider = i < tagsArray.length - 1 && <span>{" | "}</span>
         return (
           <span key={tag}>
             <Link to={tag}>
-              {this.props.data.markdownRemark.frontmatter.tags[i]}
+              {data.markdownRemark.frontmatter.tags[i]}
             </Link>
             {divider}
           </span>
@@ -43,7 +42,7 @@ class BlogPostRoute extends React.Component {
     }
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <Helmet
           title={`${post.frontmatter.title}`}
           meta={[{ name: "description", content: post.excerpt }]}
@@ -83,16 +82,15 @@ class BlogPostRoute extends React.Component {
               height: rhythm(2),
             }}
           />
-          <strong>{this.props.data.site.siteMetadata.author}</strong> lives and
-          works in {this.props.data.site.siteMetadata.homeCity} building useful
+          <strong>{data.site.siteMetadata.author}</strong> lives and
+          works in {data.site.siteMetadata.homeCity} building useful
           things.{" "}
           <a href="https://twitter.com/kylemathews">
             You should follow him on Twitter
           </a>
         </p>
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogPostRoute

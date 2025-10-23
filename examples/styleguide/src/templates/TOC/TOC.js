@@ -2,9 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
-class TOC extends React.Component {
-  render() {
-    const { allComponents } = this.props.pageContext
+function TOC({pageContext}) {
+  const { allComponents } = pageContext
     return (
       <div>
         <h1>Component styleguide</h1>
@@ -16,8 +15,7 @@ class TOC extends React.Component {
           ))}
         </ul>
       </div>
-    )
-  }
+    );
 }
 
 TOC.propTypes = {

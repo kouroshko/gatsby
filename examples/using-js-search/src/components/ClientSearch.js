@@ -1,22 +1,12 @@
 import React, { Component } from "react"
 import * as JsSearch from "js-search"
 
-class ClientSearch extends Component {
-  state = {
-    isLoading: true,
-    searchResults: [],
-    search: null,
-    isError: false,
-    indexByTitle: false,
-    indexByAuthor: false,
-    termFrequency: true,
-    removeStopWords: false,
-    searchQuery: ``,
-    selectedStrategy: ``,
-    selectedSanitizer: ``,
-  }
+function ClientSearch({books}) {
+  React.useEffect(() => {
+    rebuildIndex()
+  }, []);
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  function getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.search === null) {
       const { engine } = nextProps
       return {
@@ -29,11 +19,8 @@ class ClientSearch extends Component {
     }
     return null
   }
-  async componentDidMount() {
-    this.rebuildIndex()
-  }
 
-  rebuildIndex = () => {
+  const rebuildIndex = () => {
     const {
       selectedStrategy,
       selectedSanitizer,
@@ -76,19 +63,9 @@ class ClientSearch extends Component {
     }
     dataToSearch.addDocuments(books)
     this.setState({ search: dataToSearch, isLoading: false })
-  }
-  searchData = e => {
-    const { search } = this.state
-    const queryResult = search.search(e.target.value)
-    this.setState({ searchQuery: e.target.value, searchResults: queryResult })
-  }
-  handleSubmit = e => {
-    e.preventDefault()
-  }
-  render() {
-    const { isLoading, isError, searchResults, searchQuery } = this.state
-    const { books } = this.props
-    const queryResults = searchQuery === `` ? books : searchResults
+  };
+
+  const queryResults = searchQuery === `` ? books : searchResults
     if (isLoading) {
       return (
         <div>
@@ -115,7 +92,7 @@ class ClientSearch extends Component {
     return (
       <div>
         <div style={{ margin: `0 auto` }}>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div style={{ margin: `0 auto` }}>
               <label htmlFor="Search" style={{ paddingRight: `10px` }}>
                 Enter your search here
@@ -123,7 +100,7 @@ class ClientSearch extends Component {
               <input
                 id="Search"
                 value={searchQuery}
-                onChange={this.searchData}
+                onChange={searchData}
                 placeholder="Enter your search here"
                 style={{ margin: `0 auto`, width: `400px` }}
               />
@@ -218,7 +195,6 @@ class ClientSearch extends Component {
           </div>
         </div>
       </div>
-    )
-  }
+    );
 }
 export default ClientSearch

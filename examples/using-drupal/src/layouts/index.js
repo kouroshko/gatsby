@@ -10,9 +10,8 @@ import { rhythm, scale } from "../utils/typography"
 import constants from "../utils/constants"
 import Container from "../components/container"
 
-class DefaultLayout extends React.Component {
-  render() {
-    return (
+function DefaultLayout({children}) {
+  return (
       <div>
         <header
           css={{
@@ -97,7 +96,7 @@ class DefaultLayout extends React.Component {
             </Link>
           </div>
         </Container>
-        {this.props.children}
+        {children}
         <footer css={{ background: constants.paleYellow }}>
           <Container>
             <div css={{ maxWidth: `50%`, float: `left` }}>
@@ -121,8 +120,7 @@ class DefaultLayout extends React.Component {
           </Container>
         </footer>
       </div>
-    )
-  }
+    );
 }
 
 export default DefaultLayout

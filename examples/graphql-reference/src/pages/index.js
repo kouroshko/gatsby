@@ -4,16 +4,14 @@ import { Link, graphql } from "gatsby"
 import Layout from "../components/Layout"
 import { rhythm } from "../utils/typography"
 
-class BlogIndex extends React.Component {
-  render() {
-    const { data } = this.props
-    const siteTitle = data.site.siteMetadata.title
+function BlogIndex({location, data}) {
+  const siteTitle = data.site.siteMetadata.title
     const description = data.site.siteMetadata.description
     const posts = data.allMarkdownRemark.edges
 
     return (
       <Layout
-        location={this.props.location}
+        location={location}
         title={siteTitle}
         desc={description}
       >
@@ -36,8 +34,7 @@ class BlogIndex extends React.Component {
           )
         })}
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogIndex

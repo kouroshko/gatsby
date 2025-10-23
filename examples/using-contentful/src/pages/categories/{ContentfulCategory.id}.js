@@ -11,9 +11,8 @@ const propTypes = {
   data: PropTypes.object.isRequired,
 }
 
-class CategoryTemplate extends React.Component {
-  render() {
-    const category = this.props.data.contentfulCategory
+function CategoryTemplate({data}) {
+  const category = data.contentfulCategory
     const {
       title: { title },
       product,
@@ -51,8 +50,7 @@ class CategoryTemplate extends React.Component {
           </ul>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 CategoryTemplate.propTypes = propTypes

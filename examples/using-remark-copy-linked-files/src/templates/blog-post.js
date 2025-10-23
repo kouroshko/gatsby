@@ -9,13 +9,12 @@ import typography from "../utils/typography"
 
 const { rhythm, scale } = typography
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const post = this.props.data.markdownRemark
-    const siteTitle = get(this.props, `data.site.siteMetadata.title`)
+function BlogPostTemplate({data, location}) {
+  const post = data.markdownRemark
+    const siteTitle = get(props, `data.site.siteMetadata.title`)
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <Helmet title={`${post.frontmatter.title} | ${siteTitle}`} />
         <h1>{post.frontmatter.title}</h1>
         <p
@@ -36,8 +35,7 @@ class BlogPostTemplate extends React.Component {
         />
         <Bio />
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogPostTemplate

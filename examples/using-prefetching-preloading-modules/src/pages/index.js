@@ -17,8 +17,8 @@ const Wrapper = styled.section`
   background: papayawhip;
 `
 
-class IndexPage extends React.Component {
-  handleClick = () => {
+function IndexPage() {
+  const handleClick = () => {
     console.log(`Sync-Click!`)
     import(
       /* webpackChunkName: "async-alert", webpackPrefetch: true */ `../utils/async-alert`
@@ -26,10 +26,9 @@ class IndexPage extends React.Component {
       const asyncAlert = module.default
       asyncAlert(`Async-Click!`)
     })
-  }
+  };
 
-  render() {
-    return (
+  return (
       <React.Fragment>
         <Helmet>
           <title>Gatsby Prefetching/Preloading modules</title>
@@ -53,14 +52,13 @@ class IndexPage extends React.Component {
               Hello World, this is my first prefetching/preloading component!
             </Title>
             <p>
-              <button onClick={this.handleClick}>Dynamic Alert!</button>
+              <button onClick={handleClick}>Dynamic Alert!</button>
               <DynamicComponent />
             </p>
           </Wrapper>
         </div>
       </React.Fragment>
-    )
-  }
+    );
 }
 
 export default IndexPage

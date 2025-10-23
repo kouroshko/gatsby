@@ -7,10 +7,8 @@ const { rhythm, scale } = typography
 
 require(`prismjs/themes/prism-solarizedlight.css`)
 
-class Template extends React.Component {
-  render() {
-    const { location, children } = this.props
-    let header
+function Template({location, children}) {
+  let header
 
     if (location.pathname === `/`) {
       header = (
@@ -67,8 +65,7 @@ class Template extends React.Component {
         {header}
         {children}
       </div>
-    )
-  }
+    );
 }
 
 export default Template

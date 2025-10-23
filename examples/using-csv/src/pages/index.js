@@ -1,9 +1,8 @@
 import { graphql } from "gatsby"
 import React from "react"
 
-class IndexComponent extends React.Component {
-  render() {
-    const data = this.props.data.allLettersCsv.edges
+function IndexComponent({data}) {
+  const data = data.allLettersCsv.edges
     return (
       <div>
         <table>
@@ -23,8 +22,7 @@ class IndexComponent extends React.Component {
           </tbody>
         </table>
       </div>
-    )
-  }
+    );
 }
 
 export default IndexComponent

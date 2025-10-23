@@ -11,9 +11,8 @@ const propTypes = {
   data: PropTypes.object.isRequired,
 }
 
-class ProductTemplate extends React.Component {
-  render() {
-    const product = this.props.data.contentfulProduct
+function ProductTemplate({data}) {
+  const product = data.contentfulProduct
     const {
       productName: { productName },
       productDescription,
@@ -61,8 +60,7 @@ class ProductTemplate extends React.Component {
           </div>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 ProductTemplate.propTypes = propTypes

@@ -1,9 +1,8 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
 
-class StoryItem extends React.Component {
-  render() {
-    const item = this.props.item
+function StoryItem({item}) {
+  const item = item
     return (
       <li>
         <div>
@@ -11,8 +10,7 @@ class StoryItem extends React.Component {
           <Link to={`/item/${item.id}/`}>more details</Link>
         </div>
       </li>
-    )
-  }
+    );
 }
 
 export default StoryItem

@@ -77,10 +77,8 @@ apiRunnerAsync(`onClientEntry`).then(() => {
     renderEnvironment: `browser`,
   }
 
-  class GatsbyRoot extends React.Component {
-    render() {
-      const { children } = this.props
-      return (
+  function GatsbyRoot({children}) {
+  return (
         <Location>
           {({ location }) => (
             <EnsureResources location={location}>
@@ -109,13 +107,14 @@ apiRunnerAsync(`onClientEntry`).then(() => {
             </EnsureResources>
           )}
         </Location>
-      )
-    }
-  }
+      );
+}
 
-  class LocationHandler extends React.Component {
-    render() {
-      return (
+  function LocationHandler() {
+  const contextValue = React.useContext(DataContext);
+  const contextValue = React.useContext(DataContext);
+
+  return (
         <DataContext.Consumer>
           {({ pageResources, location }) => (
             <RouteUpdates location={location}>
@@ -140,7 +139,7 @@ apiRunnerAsync(`onClientEntry`).then(() => {
                             ).split(`?`)[0]
                           )
                     }
-                    {...this.props}
+                    {...props}
                     location={location}
                     pageResources={pageResources}
                     {...pageResources.json}
@@ -150,9 +149,8 @@ apiRunnerAsync(`onClientEntry`).then(() => {
             </RouteUpdates>
           )}
         </DataContext.Consumer>
-      )
-    }
-  }
+      );
+}
 
   const { pagePath, location: browserLoc } = window
 

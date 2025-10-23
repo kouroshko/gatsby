@@ -332,73 +332,43 @@ Img.propTypes = {
   onLoad: PropTypes.func,
 }
 
-class Image extends React.Component {
-  constructor(props) {
-    super(props)
+function Image({onStartLoad, onLoad, crossOrigin, onError, loading, critical, fadeIn, placeholderRef}) {
+  const [imgLoaded, setImgLoaded] = React.useState(false);
+  const [imgCached, setImgCached] = React.useState(false);
+  const [fadeIn, setFadeIn] = React.useState(!this.seenBefore && fadeIn);
+  const [isHydrated, setIsHydrated] = React.useState(false);
+  const imageRef = React.useRef(null);
+  React.useEffect(() => {
+    let onStartLoad;
+    let img;
+    setIsHydrated(isBrowser)
 
-    // If this image has already been loaded before then we can assume it's
-    // already in the browser cache so it's cheap to just show directly.
-    this.seenBefore = isBrowser && inImageCache(props)
-
-    this.isCritical = props.loading === `eager` || props.critical
-
-    this.addNoScript = !(this.isCritical && !props.fadeIn)
-    this.useIOSupport =
-      !hasNativeLazyLoadSupport &&
-      hasIOSupport &&
-      !this.isCritical &&
-      !this.seenBefore
-
-    const isVisible =
-      this.isCritical ||
-      (isBrowser && (hasNativeLazyLoadSupport || !this.useIOSupport))
-
-    this.state = {
-      isVisible,
-      imgLoaded: false,
-      imgCached: false,
-      fadeIn: !this.seenBefore && props.fadeIn,
-      isHydrated: false,
+    if (this.state.isVisible && typeof onStartLoad === `function`) {
+      onStartLoad({ wasCached: inImageCache(props) })
     }
-
-    this.imageRef = React.createRef()
-    this.placeholderRef = props.placeholderRef || React.createRef()
-    this.handleImageLoaded = this.handleImageLoaded.bind(this)
-    this.handleRef = this.handleRef.bind(this)
-  }
-
-  componentDidMount() {
-    this.setState({
-      isHydrated: isBrowser,
-    })
-
-    if (this.state.isVisible && typeof this.props.onStartLoad === `function`) {
-      this.props.onStartLoad({ wasCached: inImageCache(this.props) })
-    }
-    if (this.isCritical) {
-      const img = this.imageRef.current
+    if (isCritical) {
+      const img = imageRef.current
       if (img && img.complete) {
-        this.handleImageLoaded()
+        handleImageLoaded()
       }
     }
-  }
-
-  componentWillUnmount() {
-    if (this.cleanUpListeners) {
-      this.cleanUpListeners()
+    
+    return () => {
+      if (cleanUpListeners) {
+      cleanUpListeners()
     }
-  }
+    };
+  }, []);
 
-  // Specific to IntersectionObserver based lazy-load support
-  handleRef(ref) {
-    if (this.useIOSupport && ref) {
-      this.cleanUpListeners = listenToIntersections(ref, () => {
+  function handleRef(ref) {
+    if (useIOSupport && ref) {
+      cleanUpListeners = listenToIntersections(ref, () => {
         const imageInCache = inImageCache(this.props)
         if (
-          !this.state.isVisible &&
-          typeof this.props.onStartLoad === `function`
+          !isVisible &&
+          typeof onStartLoad === `function`
         ) {
-          this.props.onStartLoad({ wasCached: imageInCache })
+          onStartLoad({ wasCached: imageInCache })
         }
 
         // imgCached and imgLoaded must update after isVisible,
@@ -413,7 +383,7 @@ class Image extends React.Component {
             // for lazyloaded components this might be null
             // TODO fix imgCached behaviour as it's now false when it's lazyloaded
             imgCached: !!(
-              this.imageRef.current && this.imageRef.current.currentSrc
+              imageRef.current && imageRef.current.currentSrc
             ),
           })
         })
@@ -421,18 +391,17 @@ class Image extends React.Component {
     }
   }
 
-  handleImageLoaded() {
+  function handleImageLoaded() {
     activateCacheForImage(this.props)
 
     this.setState({ imgLoaded: true })
 
-    if (this.props.onLoad) {
-      this.props.onLoad()
+    if (onLoad) {
+      onLoad()
     }
   }
 
-  render() {
-    const {
+  const {
       title,
       alt,
       className,
@@ -448,7 +417,7 @@ class Image extends React.Component {
       itemProp,
       loading,
       draggable,
-    } = convertProps(this.props)
+    } = convertProps(props)
 
     const imageVariants = fluid || fixed
     // Abort early if missing image data (#25371)
@@ -456,8 +425,8 @@ class Image extends React.Component {
       return null
     }
 
-    const shouldReveal = this.state.fadeIn === false || this.state.imgLoaded
-    const shouldFadeIn = this.state.fadeIn === true && !this.state.imgCached
+    const shouldReveal = fadeIn === false || imgLoaded
+    const shouldFadeIn = fadeIn === true && !imgCached
 
     const imageStyle = {
       opacity: shouldReveal ? 1 : 0,
@@ -473,7 +442,7 @@ class Image extends React.Component {
     }
 
     const imagePlaceholderStyle = {
-      opacity: this.state.imgLoaded ? 0 : 1,
+      opacity: imgLoaded ? 0 : 1,
       ...(shouldFadeIn && delayHideStyle),
       ...imgStyle,
       ...placeholderStyle,
@@ -490,7 +459,7 @@ class Image extends React.Component {
     // Initial client render state needs to match SSR until hydration finishes.
     // Once hydration completes, render again to update to the correct image.
     // `imageVariants` is always an Array type at this point due to `convertProps()`
-    const image = !this.state.isHydrated
+    const image = !isHydrated
       ? imageVariants[0]
       : getCurrentSrcData(imageVariants)
 
@@ -505,7 +474,7 @@ class Image extends React.Component {
             maxHeight: image.maxHeight ? `${image.maxHeight}px` : null,
             ...style,
           }}
-          ref={this.handleRef}
+          ref={handleRef}
           key={`fluid-${JSON.stringify(image.srcSet)}`}
         >
           {/* Preserve the aspect ratio. */}
@@ -527,7 +496,7 @@ class Image extends React.Component {
                 position: `absolute`,
                 top: 0,
                 bottom: 0,
-                opacity: !this.state.imgLoaded ? 1 : 0,
+                opacity: !imgLoaded ? 1 : 0,
                 right: 0,
                 left: 0,
                 ...(shouldFadeIn && delayHideStyle),
@@ -539,7 +508,7 @@ class Image extends React.Component {
           {image.base64 && (
             <Placeholder
               ariaHidden
-              ref={this.placeholderRef}
+              ref={placeholderRef}
               src={image.base64}
               spreadProps={placeholderImageProps}
               imageVariants={imageVariants}
@@ -551,7 +520,7 @@ class Image extends React.Component {
           {image.tracedSVG && (
             <Placeholder
               ariaHidden
-              ref={this.placeholderRef}
+              ref={placeholderRef}
               src={image.tracedSVG}
               spreadProps={placeholderImageProps}
               imageVariants={imageVariants}
@@ -568,12 +537,12 @@ class Image extends React.Component {
                 title={title}
                 sizes={image.sizes}
                 src={image.src}
-                crossOrigin={this.props.crossOrigin}
+                crossOrigin={crossOrigin}
                 srcSet={image.srcSet}
                 style={imageStyle}
-                ref={this.imageRef}
-                onLoad={this.handleImageLoaded}
-                onError={this.props.onError}
+                ref={imageRef}
+                onLoad={handleImageLoaded}
+                onError={onError}
                 itemProp={itemProp}
                 loading={loading}
                 draggable={draggable}
@@ -582,7 +551,7 @@ class Image extends React.Component {
           )}
 
           {/* Show the original image during server-side rendering if JavaScript is disabled */}
-          {this.addNoScript && (
+          {addNoScript && (
             <noscript
               dangerouslySetInnerHTML={{
                 __html: noscriptImg({
@@ -617,7 +586,7 @@ class Image extends React.Component {
         <Tag
           className={`${className ? className : ``} gatsby-image-wrapper`}
           style={divStyle}
-          ref={this.handleRef}
+          ref={handleRef}
           key={`fixed-${JSON.stringify(image.srcSet)}`}
         >
           {/* Show a solid background color. */}
@@ -628,7 +597,7 @@ class Image extends React.Component {
               style={{
                 backgroundColor: bgColor,
                 width: image.width,
-                opacity: !this.state.imgLoaded ? 1 : 0,
+                opacity: !imgLoaded ? 1 : 0,
                 height: image.height,
                 ...(shouldFadeIn && delayHideStyle),
               }}
@@ -639,7 +608,7 @@ class Image extends React.Component {
           {image.base64 && (
             <Placeholder
               ariaHidden
-              ref={this.placeholderRef}
+              ref={placeholderRef}
               src={image.base64}
               spreadProps={placeholderImageProps}
               imageVariants={imageVariants}
@@ -651,7 +620,7 @@ class Image extends React.Component {
           {image.tracedSVG && (
             <Placeholder
               ariaHidden
-              ref={this.placeholderRef}
+              ref={placeholderRef}
               src={image.tracedSVG}
               spreadProps={placeholderImageProps}
               imageVariants={imageVariants}
@@ -670,12 +639,12 @@ class Image extends React.Component {
                 height={image.height}
                 sizes={image.sizes}
                 src={image.src}
-                crossOrigin={this.props.crossOrigin}
+                crossOrigin={crossOrigin}
                 srcSet={image.srcSet}
                 style={imageStyle}
-                ref={this.imageRef}
-                onLoad={this.handleImageLoaded}
-                onError={this.props.onError}
+                ref={imageRef}
+                onLoad={handleImageLoaded}
+                onError={onError}
                 itemProp={itemProp}
                 loading={loading}
                 draggable={draggable}
@@ -684,7 +653,7 @@ class Image extends React.Component {
           )}
 
           {/* Show the original image during server-side rendering if JavaScript is disabled */}
-          {this.addNoScript && (
+          {addNoScript && (
             <noscript
               dangerouslySetInnerHTML={{
                 __html: noscriptImg({
@@ -701,8 +670,7 @@ class Image extends React.Component {
       )
     }
 
-    return null
-  }
+    return null;
 }
 
 Image.defaultProps = {

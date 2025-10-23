@@ -26,9 +26,8 @@ const Wrapper = styled.section`
   max-width: 800px;
 `
 
-class IndexPage extends React.Component {
-  render() {
-    return (
+function IndexPage() {
+  return (
       <Fragment>
         <Helmet>
           <title>Gatsby Styled Components</title>
@@ -48,8 +47,7 @@ class IndexPage extends React.Component {
           </p>
         </Wrapper>
       </Fragment>
-    )
-  }
+    );
 }
 
 export default IndexPage

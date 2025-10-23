@@ -4,9 +4,8 @@ import Img from "gatsby-image"
 import Layout from "../layouts"
 import { rhythm } from "../utils/typography"
 
-class Index extends React.Component {
-  render() {
-    const data = this.props.data
+function Index({data}) {
+  const data = data
     const images = data.allImageSharp.edges
     const fluid = data.fluidImages.childImageSharp.fluid
     const fixed = data.fixedImages.childImageSharp.fixed
@@ -332,8 +331,7 @@ class Index extends React.Component {
 
         <Img fixed={fixed} />
       </Layout>
-    )
-  }
+    );
 }
 
 const styles = {}

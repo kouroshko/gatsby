@@ -2,10 +2,9 @@ import React from "react"
 import { rhythm } from "../utils/typography"
 import Layout from "../layouts"
 
-class About extends React.Component {
-  render() {
-    return (
-      <Layout location={this.props.location}>
+function About({location}) {
+  return (
+      <Layout location={location}>
         <div
           css={{
             padding: rhythm(3 / 4),
@@ -43,8 +42,7 @@ class About extends React.Component {
           </p>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default About

@@ -16,19 +16,17 @@ import(`../components/modal`).then(modal => {
 
 let windowWidth
 
-class Layout extends React.Component {
+function Layout({isModal, children, location}) {
   static propTypes = {
     location: PropTypes.object.isRequired,
     isModal: PropTypes.bool,
   }
 
-  render() {
-    const { location } = this.props
-    let isModal = false
+  let isModal = false
     if (!windowWidth && typeof window !== `undefined`) {
       windowWidth = window.innerWidth
     }
-    if (this.props.isModal && windowWidth > 750) {
+    if (isModal && windowWidth > 750) {
       isModal = true
     }
 
@@ -37,7 +35,7 @@ class Layout extends React.Component {
         <React.Fragment>
           <PageRenderer location={{ pathname: `/` }} />
           <Modal isOpen={true} location={location}>
-            {this.props.children}
+            {children}
           </Modal>
         </React.Fragment>
       )
@@ -125,11 +123,10 @@ class Layout extends React.Component {
             },
           }}
         >
-          {this.props.children}
+          {children}
         </div>
       </div>
-    )
-  }
+    );
 }
 
 export default Layout

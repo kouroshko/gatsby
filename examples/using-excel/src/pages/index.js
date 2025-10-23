@@ -1,10 +1,9 @@
 import { graphql } from "gatsby"
 import React from "react"
 
-class IndexComponent extends React.Component {
-  render() {
-    const data1 = this.props.data.allLettersXlsxSheet1.edges
-    const data2 = this.props.data.allLettersXlsxSheet2.edges
+function IndexComponent({data}) {
+  const data1 = data.allLettersXlsxSheet1.edges
+    const data2 = data.allLettersXlsxSheet2.edges
     return (
       <div>
         <table>
@@ -46,8 +45,7 @@ class IndexComponent extends React.Component {
           </tbody>
         </table>
       </div>
-    )
-  }
+    );
 }
 
 export default IndexComponent
