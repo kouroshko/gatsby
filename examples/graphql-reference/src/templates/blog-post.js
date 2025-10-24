@@ -4,14 +4,13 @@ import { Link, graphql } from "gatsby"
 import Layout from "../components/Layout"
 import { rhythm, scale } from "../utils/typography"
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const post = this.props.data.markdownRemark
-    const siteTitle = this.props.data.site.siteMetadata.title
-    const { previous, next } = this.props.pageContext
+function BlogPostTemplate({data, pageContext, location}) {
+  const post = data.markdownRemark
+    const siteTitle = data.site.siteMetadata.title
+    const { previous, next } = pageContext
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
+      <Layout location={location} title={siteTitle}>
         <h1>{post.frontmatter.title}</h1>
         <p
           style={{
@@ -66,8 +65,7 @@ class BlogPostTemplate extends React.Component {
           </li>
         </ul>
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogPostTemplate

@@ -2,9 +2,8 @@ import React from "react"
 
 import Layout from "../layouts/index"
 
-class Index extends React.Component {
-  render() {
-    return (
+function Index() {
+  return (
       <Layout>
         <h1 className="tu">Hi sassy friends</h1>
         <div className="sass-nav-example">
@@ -30,8 +29,7 @@ class Index extends React.Component {
           </ul>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default Index

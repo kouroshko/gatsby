@@ -5,12 +5,11 @@ import styles from "../styles"
 import presets from "../utils/presets"
 import { rhythm, scale } from "../utils/typography"
 
-class Index extends React.Component {
-  render() {
-    const posts = this.props.data.allMarkdownRemark.edges
+function Index({data, location}) {
+  const posts = data.allMarkdownRemark.edges
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <div>
           <h1
             css={{
@@ -68,8 +67,7 @@ class Index extends React.Component {
           </ul>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default Index

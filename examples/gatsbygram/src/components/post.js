@@ -9,7 +9,9 @@ import presets from "../utils/presets"
 
 let touched = false
 
-class Post extends React.Component {
+function Post({post}) {
+  const [hovering, setHovering] = React.useState(false);
+
   static propTypes = {
     post: PropTypes.shape({
       smallImage: PropTypes.object,
@@ -17,15 +19,8 @@ class Post extends React.Component {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }
-  constructor() {
-    super()
-    this.state = {
-      hovering: false,
-    }
-  }
 
-  render() {
-    const { smallImage, likes, id } = this.props.post
+  const { smallImage, likes, id } = post
     const { small } = smallImage.childImageSharp
     return (
       <Link
@@ -34,12 +29,12 @@ class Post extends React.Component {
         onTouchStart={() => (touched = true)}
         onMouseEnter={() => {
           if (!touched) {
-            this.setState({ hovering: true })
+            setHovering(true)
           }
         }}
         onMouseLeave={() => {
           if (!touched) {
-            this.setState({ hovering: false })
+            setHovering(false)
           }
         }}
         css={{
@@ -92,7 +87,7 @@ class Post extends React.Component {
           />
         </div>
         {/* overlay */}
-        {this.state.hovering && (
+        {hovering && (
           <div
             data-testid="likes"
             css={{
@@ -120,8 +115,7 @@ class Post extends React.Component {
           </div>
         )}
       </Link>
-    )
-  }
+    );
 }
 
 export default Post

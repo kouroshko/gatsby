@@ -20,10 +20,9 @@ const link = css`
 `
 
 // TODO(v6): Refactor this to a function component
-class PureLayout extends React.Component {
-  render() {
-    const HeadingTag = this.props.isIndex ? `h1` : `h3`
-    const { siteTitle, pageTitle } = this.props
+function PureLayout({isIndex, children, siteTitle, pageTitle}) {
+  const HeadingTag = isIndex ? `h1` : `h3`
+    
     const title = pageTitle ? `${pageTitle} — ${siteTitle}` : `${siteTitle}`
 
     return (
@@ -42,11 +41,10 @@ class PureLayout extends React.Component {
               Using Gatsby with Emotion and PrismJS
             </Link>
           </HeadingTag>
-          {this.props.children}
+          {children}
         </div>
       </Fragment>
-    )
-  }
+    );
 }
 
 PureLayout.propTypes = {

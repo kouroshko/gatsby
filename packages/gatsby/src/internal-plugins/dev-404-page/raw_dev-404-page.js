@@ -3,73 +3,56 @@ import PropTypes from "prop-types"
 import { graphql, Link, navigate } from "gatsby"
 import queryString from "query-string"
 
-class Dev404Page extends React.Component {
+function Dev404Page({location, custom404, data, search}) {
+  const [hasMounted, setHasMounted] = React.useState(false);
+  const [showCustom404, setShowCustom404] = React.useState(process.env.GATSBY_DISABLE_CUSTOM_404 || false);
+  const [initPagePaths, setInitPagePaths] = React.useState(pagePaths);
+  const [pagePathSearchTerms, setPagePathSearchTerms] = React.useState(initialPagePathSearchTerms);
+  const [pagePaths, setPagePaths] = React.useState(this.getFilteredPagePaths(
+        pagePaths,
+        initialPagePathSearchTerms
+      ));
+  React.useEffect(() => {
+    setHasMounted(true)
+  }, []);
+
   static propTypes = {
     data: PropTypes.object,
     custom404: PropTypes.element,
     location: PropTypes.object,
   }
 
-  constructor(props) {
-    super(props)
-    const { data, location } = this.props
-    const pagePaths = data.allSitePage.nodes.map(node => node.path)
-    const urlState = queryString.parse(location.search)
-
-    const initialPagePathSearchTerms = urlState.filter ? urlState.filter : ``
-
-    this.state = {
-      hasMounted: false,
-      showCustom404: process.env.GATSBY_DISABLE_CUSTOM_404 || false,
-      initPagePaths: pagePaths,
-      pagePathSearchTerms: initialPagePathSearchTerms,
-      pagePaths: this.getFilteredPagePaths(
-        pagePaths,
-        initialPagePathSearchTerms
-      ),
-    }
-    this.showCustom404 = this.showCustom404.bind(this)
-    this.handlePagePathSearch = this.handlePagePathSearch.bind(this)
-    this.handleSearchTermChange = this.handleSearchTermChange.bind(this)
-  }
-
-  componentDidMount() {
-    this.setState({
-      hasMounted: true,
-    })
-  }
-
-  showCustom404() {
+  function showCustom404() {
     this.setState({ showCustom404: true })
   }
 
-  handleSearchTermChange(event) {
+  function handleSearchTermChange(event) {
     const searchValue = event.target.value
 
-    this.setSearchUrl(searchValue)
+    setSearchUrl(searchValue)
 
     this.setState({
       pagePathSearchTerms: searchValue,
     })
   }
 
-  handlePagePathSearch(event) {
+  function handlePagePathSearch(event) {
     event.preventDefault()
-    const allPagePaths = [...this.state.initPagePaths]
+    const allPagePaths = [...initPagePaths]
     this.setState({
-      pagePaths: this.getFilteredPagePaths(
+      pagePaths: getFilteredPagePaths(
         allPagePaths,
-        this.state.pagePathSearchTerms
+        pagePathSearchTerms
       ),
     })
   }
 
-  getFilteredPagePaths(allPagePaths, pagePathSearchTerms) {
+  function getFilteredPagePaths(allPagePaths, pagePathSearchTerms) {
     const searchTerm = new RegExp(`${pagePathSearchTerms}`)
     return allPagePaths.filter(pagePath => searchTerm.test(pagePath))
   }
 
-  setSearchUrl(searchValue) {
+  function setSearchUrl(searchValue) {
     const {
       location: { pathname, search },
     } = this.props
@@ -84,12 +67,11 @@ class Dev404Page extends React.Component {
     }
   }
 
-  render() {
-    if (!this.state.hasMounted) {
+  if (!hasMounted) {
       return null
     }
 
-    const { pathname } = this.props.location
+    const { pathname } = location
     let newFilePath
     let newAPIPath
     if (pathname === `/`) {
@@ -102,8 +84,8 @@ class Dev404Page extends React.Component {
       newFilePath = `src/pages${pathname}.js`
     }
 
-    return this.state.showCustom404 ? (
-      this.props.custom404
+    return showCustom404 ? (
+      custom404
     ) : (
       <div>
         <h1>Gatsby.js development 404 page</h1>
@@ -111,9 +93,9 @@ class Dev404Page extends React.Component {
           There's not a page or function yet at{` `}
           <code>{pathname}</code>
         </p>
-        {this.props.custom404 ? (
+        {custom404 ? (
           <p>
-            <button onClick={this.showCustom404}>
+            <button onClick={showCustom404}>
               Preview custom 404 page
             </button>
           </p>
@@ -180,16 +162,16 @@ export default function API (req, res) {
             </pre>
           </div>
         )}
-        {this.state.initPagePaths.length > 0 && (
+        {initPagePaths.length > 0 && (
           <div>
             <hr />
             <p>
               If you were trying to reach another page or function, perhaps you
               can find it below.
             </p>
-            <h2>Functions ({this.props.data.allSiteFunction.nodes.length})</h2>
+            <h2>Functions ({data.allSiteFunction.nodes.length})</h2>
             <ul>
-              {this.props.data.allSiteFunction.nodes.map(node => {
+              {data.allSiteFunction.nodes.map(node => {
                 const functionRoute = `/api/${node.functionRoute}`
                 return (
                   <li key={functionRoute}>
@@ -200,27 +182,27 @@ export default function API (req, res) {
             </ul>
             <h2>
               Pages (
-              {this.state.pagePaths.length != this.state.initPagePaths.length
-                ? `${this.state.pagePaths.length}/${this.state.initPagePaths.length}`
-                : this.state.initPagePaths.length}
+              {pagePaths.length != initPagePaths.length
+                ? `${pagePaths.length}/${initPagePaths.length}`
+                : initPagePaths.length}
               )
             </h2>
 
-            <form onSubmit={this.handlePagePathSearch}>
+            <form onSubmit={handlePagePathSearch}>
               <label>
                 Search:
                 <input
                   type="text"
                   id="search"
                   placeholder="Search pages..."
-                  value={this.state.pagePathSearchTerms}
-                  onChange={this.handleSearchTermChange}
+                  value={pagePathSearchTerms}
+                  onChange={handleSearchTermChange}
                 />
               </label>
               <input type="submit" value="Submit" />
             </form>
             <ul>
-              {this.state.pagePaths.map(
+              {pagePaths.map(
                 (pagePath, index) =>
                   index < 100 && (
                     <li key={pagePath}>
@@ -228,17 +210,16 @@ export default function API (req, res) {
                     </li>
                   )
               )}
-              {this.state.pagePaths.length > 100 && (
+              {pagePaths.length > 100 && (
                 <p style={{ fontWeight: `bold` }}>
-                  ... and {this.state.pagePaths.length - 100} more.
+                  ... and {pagePaths.length - 100} more.
                 </p>
               )}
             </ul>
           </div>
         )}
       </div>
-    )
-  }
+    );
 }
 
 export default Dev404Page

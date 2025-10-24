@@ -36,15 +36,14 @@ const GET_POST = gql`
   }
 `
 
-class IndexPage extends React.Component {
-  render() {
-    return (
+function IndexPage({reduxState, classes, setBlogPost}) {
+  return (
       <div>
         <h1>Multiple provider-example</h1>
         <h2>Redux component:</h2>
         <Counter>
           ReduxState:
-          <pre>{JSON.stringify(this.props.reduxState)}</pre>
+          <pre>{JSON.stringify(reduxState)}</pre>
         </Counter>
         <h2>Apollo</h2>
         <h3>List (click on something)</h3>
@@ -59,9 +58,9 @@ class IndexPage extends React.Component {
                   const { id, title } = data
                   return (
                     <li
-                      className={this.props.classes.listItem}
+                      className={classes.listItem}
                       onClick={() => {
-                        this.props.setBlogPost(data)
+                        setBlogPost(data)
                       }}
                       key={id}
                     >
@@ -73,8 +72,8 @@ class IndexPage extends React.Component {
             )
           }}
         </Query>
-        {this.props.reduxState.id && (
-          <Query query={GET_POST} variables={{ id: this.props.reduxState.id }}>
+        {reduxState.id && (
+          <Query query={GET_POST} variables={{ id: reduxState.id }}>
             {({ loading, error, data }) => {
               if (loading) return <div>Loading...</div>
               if (error) return <div>Error :(</div>
@@ -89,8 +88,7 @@ class IndexPage extends React.Component {
           </Query>
         )}
       </div>
-    )
-  }
+    );
 }
 
 const mapStateToProps = state => {

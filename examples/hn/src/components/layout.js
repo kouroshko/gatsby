@@ -5,9 +5,8 @@ import "../css/news.css"
 import y18Gif from "../images/y18.gif"
 import sGif from "../images/s.gif"
 
-class Layout extends React.Component {
-  render() {
-    return (
+function Layout({children}) {
+  return (
       <center>
         <table
           id="hnmain"
@@ -78,7 +77,7 @@ class Layout extends React.Component {
             </tr>
             <tr style={{ height: `10px` }} />
             <tr>
-              <td>{this.props.children}</td>
+              <td>{children}</td>
             </tr>
             <tr>
               <td>
@@ -111,8 +110,7 @@ class Layout extends React.Component {
           </tbody>
         </table>
       </center>
-    )
-  }
+    );
 }
 
 export default Layout

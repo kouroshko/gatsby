@@ -15,39 +15,39 @@ let posts
 Modal.setAppElement(`#___gatsby`)
 
 // TODO(v6): Refactor this to a function component
-class GatsbyGramModal extends React.Component {
+function GatsbyGramModal({location, isOpen, children}) {
+  React.useEffect(() => {
+    mousetrap.bind(`left`, () => previous())
+    mousetrap.bind(`right`, () => next())
+    mousetrap.bind(`space`, () => next())
+    
+    return () => {
+      mousetrap.unbind(`left`)
+    mousetrap.unbind(`right`)
+    mousetrap.unbind(`space`)
+    };
+  }, []);
+
   static propTypes = {
     isOpen: PropTypes.bool,
     location: PropTypes.object.isRequired,
   }
 
-  componentDidMount() {
-    mousetrap.bind(`left`, () => this.previous())
-    mousetrap.bind(`right`, () => this.next())
-    mousetrap.bind(`space`, () => this.next())
-  }
-
-  componentWillUnmount() {
-    mousetrap.unbind(`left`)
-    mousetrap.unbind(`right`)
-    mousetrap.unbind(`space`)
-  }
-
-  findCurrentIndex() {
+  function findCurrentIndex() {
     let index
     index = findIndex(
       posts,
-      post => post.id === this.props.location.pathname.split(`/`)[1]
+      post => post.id === location.pathname.split(`/`)[1]
     )
 
     return index
   }
 
-  next(e) {
+  function next(e) {
     if (e) {
       e.stopPropagation()
     }
-    const currentIndex = this.findCurrentIndex()
+    const currentIndex = findCurrentIndex()
     if (currentIndex || currentIndex === 0) {
       let nextPost
       // Wrap around if at end.
@@ -60,11 +60,11 @@ class GatsbyGramModal extends React.Component {
     }
   }
 
-  previous(e) {
+  function previous(e) {
     if (e) {
       e.stopPropagation()
     }
-    const currentIndex = this.findCurrentIndex()
+    const currentIndex = findCurrentIndex()
     if (currentIndex || currentIndex === 0) {
       let previousPost
       // Wrap around if at start.
@@ -77,9 +77,7 @@ class GatsbyGramModal extends React.Component {
     }
   }
 
-  // TODO(v6): Refactor to use `useStaticQuery` instead of `StaticQuery`, `StaticQuery` will be removed in v6
-  render() {
-    return (
+  return (
       <StaticQuery
         query={graphql`
           query {
@@ -98,7 +96,7 @@ class GatsbyGramModal extends React.Component {
           }
           return (
             <Modal
-              isOpen={this.props.isOpen}
+              isOpen={isOpen}
               onRequestClose={() => navigate(`/`)}
               style={{
                 overlay: {
@@ -150,9 +148,9 @@ class GatsbyGramModal extends React.Component {
                       color: `rgba(255,255,255,0.7)`,
                       userSelect: `none`,
                     }}
-                    onClick={e => this.previous(e)}
+                    onClick={e => previous(e)}
                   />
-                  {this.props.children}
+                  {children}
                   <CaretRight
                     data-testid="next-post"
                     css={{
@@ -161,7 +159,7 @@ class GatsbyGramModal extends React.Component {
                       color: `rgba(255,255,255,0.7)`,
                       userSelect: `none`,
                     }}
-                    onClick={e => this.next(e)}
+                    onClick={e => next(e)}
                   />
                 </div>
                 <Close
@@ -181,8 +179,7 @@ class GatsbyGramModal extends React.Component {
           )
         }}
       />
-    )
-  }
+    );
 }
 
 export default GatsbyGramModal

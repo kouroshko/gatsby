@@ -4,9 +4,8 @@ import presets from "../utils/presets"
 import typography, { rhythm, scale } from "../utils/typography"
 import { graphql } from "gatsby"
 
-class PostDetail extends React.Component {
-  render() {
-    const {
+function PostDetail({post}) {
+  const {
       bigImage,
       likes,
       id,
@@ -14,7 +13,7 @@ class PostDetail extends React.Component {
       weeksAgo,
       text,
       avatar,
-    } = this.props.post
+    } = post
 
     const { big } = bigImage.childImageSharp
 
@@ -187,8 +186,7 @@ class PostDetail extends React.Component {
           <PostDetails />
         </div>
       </div>
-    )
-  }
+    );
 }
 
 export default PostDetail

@@ -9,9 +9,8 @@ import typography from "../utils/typography"
 
 const { rhythm } = typography
 
-class Bio extends React.Component {
-  render() {
-    return (
+function Bio() {
+  return (
       <div
         style={{
           display: `flex`,
@@ -37,8 +36,7 @@ class Bio extends React.Component {
           </a>
         </p>
       </div>
-    )
-  }
+    );
 }
 
 export default Bio

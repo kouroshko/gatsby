@@ -2,9 +2,8 @@ import React from "react"
 import { Link } from "gatsby"
 import * as s from "./css-modules.module.styl"
 
-class CssModules extends React.Component {
-  render() {
-    return (
+function CssModules() {
+  return (
       <div>
         <header className={s.header}>
           <h1 className={s.theStylusClass}>Hi stylish friends</h1>
@@ -47,8 +46,7 @@ class CssModules extends React.Component {
           </div>
         </section>
       </div>
-    )
-  }
+    );
 }
 
 export default CssModules

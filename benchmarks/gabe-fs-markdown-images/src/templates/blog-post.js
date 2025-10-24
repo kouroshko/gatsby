@@ -5,9 +5,8 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import { GatsbyImage } from "gatsby-plugin-image"
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const {
+function BlogPostTemplate({data, pageContext, location}) {
+  const {
       html,
       frontmatter: {
         title,
@@ -16,12 +15,12 @@ class BlogPostTemplate extends React.Component {
           childImageSharp: { gatsbyImageData },
         },
       },
-    } = this.props.data.markdownRemark
-    const siteTitle = this.props.data.site.siteMetadata.title
-    const { previous, next } = this.props.pageContext
+    } = data.markdownRemark
+    const siteTitle = data.site.siteMetadata.title
+    const { previous, next } = pageContext
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
+      <Layout location={location} title={siteTitle}>
         <article>
           <header>
             <h1 style={{ marginTop: "5px", marginBottom: 0 }}>{title}</h1>
@@ -62,8 +61,7 @@ class BlogPostTemplate extends React.Component {
           </ul>
         </nav>
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogPostTemplate

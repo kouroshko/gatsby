@@ -1,9 +1,8 @@
 import React from "react"
 import { graphql } from "gatsby"
 
-class BlogPost extends React.Component {
-  render() {
-    const { html, frontmatter } = this.props.data.markdownRemark
+function BlogPost({data}) {
+  const { html, frontmatter } = data.markdownRemark
     return (
       <div>
         <h1>{frontmatter.title}</h1>
@@ -11,8 +10,7 @@ class BlogPost extends React.Component {
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </div>
       </div>
-    )
-  }
+    );
 }
 
 export default BlogPost

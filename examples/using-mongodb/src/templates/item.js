@@ -2,9 +2,8 @@ import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../layouts"
 
-class Item extends React.Component {
-  render() {
-    const story = this.props.data.mongodbCloudDocuments
+function Item({data}) {
+  const story = data.mongodbCloudDocuments
 
     return (
       <Layout>
@@ -22,8 +21,7 @@ class Item extends React.Component {
           </p>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default Item

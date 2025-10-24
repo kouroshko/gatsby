@@ -4,9 +4,8 @@ import { Link } from "gatsby"
 
 import Example from "./components/Example"
 
-class ComponentPage extends React.Component {
-  render() {
-    const { displayName, props, html, description } = this.props.pageContext
+function ComponentPage({pageContext, map}) {
+  const { displayName, props, html, description } = pageContext
 
     return (
       <div>
@@ -38,8 +37,7 @@ class ComponentPage extends React.Component {
           <Link to="/components/">[index]</Link>
         </p>
       </div>
-    )
-  }
+    );
 }
 
 ComponentPage.propTypes = {

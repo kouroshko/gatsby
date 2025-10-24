@@ -3,9 +3,8 @@ import { Link } from "gatsby"
 import SiteNav from "../SiteNav"
 import SiteLinks from "../SiteLinks"
 
-class SiteSidebar extends React.Component {
-  render() {
-    const { siteMetadata } = this.props.data.site
+function SiteSidebar({data}) {
+  const { siteMetadata } = data.site
     // TODO, deal with image more nice like
 
     let header = (
@@ -42,16 +41,15 @@ class SiteSidebar extends React.Component {
       <div className="card is-fullwidth">
         {header}
         <div className="card-content">
-          <SiteNav {...this.props} />
+          <SiteNav {...props} />
           <footer>
             <div className="is-hidden-mobile">
-              <SiteLinks {...this.props} />
+              <SiteLinks {...props} />
             </div>
           </footer>
         </div>
       </div>
-    )
-  }
+    );
 }
 
 export default SiteSidebar

@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import "./style.css"
 import "../../static/fonts/fontawesome/style.css"
 
-class SiteLinks extends React.Component {
+function SiteLinks({data}) {
   static propTypes = {
     data: PropTypes.shape({
       site: PropTypes.shape({
@@ -12,8 +12,7 @@ class SiteLinks extends React.Component {
     }),
   }
 
-  render() {
-    const { siteMetadata } = this.props.data.site
+  const { siteMetadata } = data.site
 
     return (
       <div className="blog-social">
@@ -30,8 +29,7 @@ class SiteLinks extends React.Component {
           </li>
         </ul>
       </div>
-    )
-  }
+    );
 }
 
 export default SiteLinks

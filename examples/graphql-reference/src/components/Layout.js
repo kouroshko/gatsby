@@ -3,10 +3,8 @@ import { Link } from "gatsby"
 
 import { rhythm, scale } from "../utils/typography"
 
-class Layout extends React.Component {
-  render() {
-    const { location, title, desc, children } = this.props
-    const rootPath = `${__PATH_PREFIX__}/`
+function Layout({location, title, desc, children}) {
+  const rootPath = `${__PATH_PREFIX__}/`
     let header
 
     if (location.pathname === rootPath) {
@@ -70,8 +68,7 @@ class Layout extends React.Component {
           <a href="https://www.gatsbyjs.com">Gatsby</a>
         </footer>
       </div>
-    )
-  }
+    );
 }
 
 export default Layout

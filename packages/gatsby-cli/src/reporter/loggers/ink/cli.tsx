@@ -25,29 +25,16 @@ interface ICLIState {
   error?: Error
 }
 
-class CLI extends React.Component<ICLIProps, ICLIState> {
-  readonly state: ICLIState = {
-    hasError: false,
-  }
+function CLI({logs, messages, showStatusBar, showTrees}) {
   memoizedReactElementsForMessages: Array<React.ReactElement> = []
 
-  componentDidCatch(): void {}
+  function componentDidCatch() {}
 
-  static getDerivedStateFromError(error: Error): ICLIState {
+  function getDerivedStateFromError(error: Error) {
     return { hasError: true, error }
   }
 
-  render(): React.ReactElement {
-    const {
-      logs: { activities },
-      messages,
-      showStatusBar,
-      showTrees,
-    } = this.props
-
-    const { hasError, error } = this.state
-
-    if (hasError && error) {
+  if (hasError && error) {
       // You can render any custom fallback UI
       return (
         <Box flexDirection="row">
@@ -113,8 +100,7 @@ class CLI extends React.Component<ICLIProps, ICLIState> {
 
         {showStatusBar && <Develop />}
       </Box>
-    )
-  }
+    );
 }
 
 export default CLI

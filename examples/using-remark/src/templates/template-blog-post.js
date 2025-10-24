@@ -15,9 +15,8 @@ const renderAst = new rehypeReact({
   components: { "interactive-counter": Counter },
 }).Compiler
 
-class BlogPostRoute extends React.Component {
-  render() {
-    const post = this.props.data.markdownRemark
+function BlogPostRoute({data, location}) {
+  const post = data.markdownRemark
 
     let tags
     let tagsSection
@@ -45,7 +44,7 @@ class BlogPostRoute extends React.Component {
     }
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <div
           css={{
             maxWidth: rhythm(26),
@@ -123,8 +122,7 @@ class BlogPostRoute extends React.Component {
           </p>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogPostRoute

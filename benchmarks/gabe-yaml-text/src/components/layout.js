@@ -1,10 +1,8 @@
 import React from "react"
 import { Link } from "gatsby"
 
-class Layout extends React.Component {
-  render() {
-    const { location, title, children } = this.props
-    const rootPath = `${__PATH_PREFIX__}/`
+function Layout({location, title, children}) {
+  const rootPath = `${__PATH_PREFIX__}/`
     let header
 
     if (location.pathname === rootPath) {
@@ -65,8 +63,7 @@ class Layout extends React.Component {
           <a href="https://www.gatsbyjs.com">Gatsby</a>
         </footer>
       </div>
-    )
-  }
+    );
 }
 
 export default Layout

@@ -3,9 +3,8 @@ import { graphql } from "gatsby"
 import StoryItem from "../components/story-item"
 import Layout from "../layouts"
 
-class Index extends React.Component {
-  render() {
-    const { allMongodbCloudDocuments } = this.props.data
+function Index({data}) {
+  const { allMongodbCloudDocuments } = data
 
     return (
       <Layout>
@@ -18,8 +17,7 @@ class Index extends React.Component {
           </ul>
         </div>
       </Layout>
-    )
-  }
+    );
 }
 
 export default Index

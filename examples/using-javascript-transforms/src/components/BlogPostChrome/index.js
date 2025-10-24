@@ -4,22 +4,20 @@ import HelmetBlock from "../HelmetBlock"
 import PostPublished from "../PostPublished"
 import BlogPostLayout from "../Layouts/blogPost"
 
-class BlogPostChrome extends React.Component {
-  render() {
-    return (
-      <BlogPostLayout {...this.props.site}>
+function BlogPostChrome({site, frontmatter, children}) {
+  return (
+      <BlogPostLayout {...site}>
         <div className="BlogPostChrome">
-          <HelmetBlock {...this.props.frontmatter} />
+          <HelmetBlock {...frontmatter} />
           <div className="content">
             <div className="section">
-              <div className="container content">{this.props.children}</div>
+              <div className="container content">{children}</div>
             </div>
           </div>
-          <PostPublished {...this.props.frontmatter} />
+          <PostPublished {...frontmatter} />
         </div>
       </BlogPostLayout>
-    )
-  }
+    );
 }
 
 export default BlogPostChrome

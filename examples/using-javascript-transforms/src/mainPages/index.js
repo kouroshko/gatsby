@@ -9,13 +9,12 @@ export const frontmatter = {
   path: `/`,
 }
 
-class SiteIndex extends React.Component {
-  render() {
-    const pageLinks = []
+function SiteIndex({data}) {
+  const pageLinks = []
     let iteratorKey = 0
     let pageRaw = [
-      ...this.props.data.allMarkdownRemark.edges,
-      ...this.props.data.allJavascriptFrontmatter.edges,
+      ...data.allMarkdownRemark.edges,
+      ...data.allJavascriptFrontmatter.edges,
     ]
     let pageArray = []
     pageRaw.forEach(page => {
@@ -80,8 +79,7 @@ class SiteIndex extends React.Component {
       }
     })
 
-    return <InsetPageLayout {...this.props}>{pageLinks}</InsetPageLayout>
-  }
+    return <InsetPageLayout {...props}>{pageLinks}</InsetPageLayout>;
 }
 
 export default SiteIndex

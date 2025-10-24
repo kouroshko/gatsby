@@ -2,9 +2,8 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 import Layout from "../layouts"
 
-class TagRoute extends React.Component {
-  render() {
-    const posts = this.props.data.allMarkdownRemark.edges
+function TagRoute({data, location, pageContext}) {
+  const posts = data.allMarkdownRemark.edges
     const postLinks = posts.map(post => (
       <li key={post.node.fields.slug}>
         <Link to={post.node.fields.slug}>{post.node.frontmatter.title}</Link>
@@ -12,19 +11,18 @@ class TagRoute extends React.Component {
     ))
 
     return (
-      <Layout location={this.props.location}>
+      <Layout location={location}>
         <h1>
-          {this.props.data.allMarkdownRemark.totalCount}
+          {data.allMarkdownRemark.totalCount}
           {` `}
-          posts tagged with “{this.props.pageContext.tag}”
+          posts tagged with “{pageContext.tag}”
         </h1>
         <ul>{postLinks}</ul>
         <p>
           <Link to="/tags/">Browse all tags</Link>
         </p>
       </Layout>
-    )
-  }
+    );
 }
 
 export default TagRoute

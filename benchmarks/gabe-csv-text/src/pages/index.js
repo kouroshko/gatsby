@@ -4,14 +4,12 @@ import { Link, graphql } from "gatsby"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 
-class BlogIndex extends React.Component {
-  render() {
-    const { data } = this.props
-    const siteTitle = data.site.siteMetadata.title
+function BlogIndex({location, data}) {
+  const siteTitle = data.site.siteMetadata.title
     const posts = data.allGendataCsv.nodes
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
+      <Layout location={location} title={siteTitle}>
         <Bio />
         {posts.map(({ title, slug, date, description }) => {
           return (
@@ -31,8 +29,7 @@ class BlogIndex extends React.Component {
           )
         })}
       </Layout>
-    )
-  }
+    );
 }
 
 export default BlogIndex
